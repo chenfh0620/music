@@ -13,3 +13,11 @@
     transform-origin: 0 0;
   }
 }
+
+.elli(@linenum:2) {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @linenum;
+  -webkit-box-orient: vertical;
+}
