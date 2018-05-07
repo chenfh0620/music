@@ -37,35 +37,18 @@
       </div>
     </div>
     <transition name="fade">
-      <div v-if="showList" class="play-list-wrapper ignore">
-        <div class="bs-wrapper">
-          <div class="play-list-header">
-            <div @click="showList = false" class="back"></div>
-            <div class="title">歌单</div>
-            <div class="more"></div>
-          </div>
-          <div class="play-list-img">
-            <div class="img">
-              <img :src="chooseList.coverImgUrl">
-              <span class="play-num">{{intToWan(chooseList.playCount)}}</span>
-            </div>
-            <div class="name">
-              <p>{{chooseList.name}}</p>
-            </div>
-          </div>
-          <div class="list-info">
-            <div class="info-item"><img src="/static/list-3.png"><span>{{intToWan(chooseList.trackCount)}}</span></div>
-            <div class="info-item"><img src="/static/list-2.png"><span>{{intToWan(chooseList.commentCount)}}</span></div>
-            <div class="info-item"><img src="/static/list-1.png"><span>{{intToWan(chooseList.shareCount)}}</span></div>
-            <div class="info-item"><img src="/static/list-4.png"><span>{{intToWan(chooseList.commentCount)}}</span></div>
-          </div>
-        </div>
-      </div>
+      <lists-detail  v-if="showList" @changeShowList="showList = false"
+       :chooseList="chooseList"></lists-detail>
+    </transition>
+    <transition name="fade">
+      <player  v-if="showPlayer"></player>
     </transition>
   </div>
 </template>
 
 <script>
+import ListsDetail from '@/components/listsDetail/listsDetail';
+import Player from '@/components/player/player';
 import axios from 'axios';
 import BScroll from 'better-scroll';
 import { Swipe, SwipeItem, MessageBox } from 'mint-ui';
@@ -76,6 +59,7 @@ export default {
       playLists: [],
       showList: false,
       chooseList: {},
+      showPlayer: false,
     };
   },
   created() {
@@ -89,6 +73,8 @@ export default {
   components: {
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
+    ListsDetail,
+    Player,
   },
   methods: {
     initscroll() {
@@ -151,6 +137,9 @@ export default {
     width: 100%;
     padding-top: 20px;
     text-align:center;
+  }
+  &>.bs-wrapper {
+    background-color: #fff;
   }
   .mint-swipe {
     height: 278px;
@@ -250,88 +239,6 @@ export default {
           text-shadow: 1px 0 0 rgba(0, 0, 0, .15);
           color: #fff;
           line-height: 36px;
-        }
-      }
-    }
-  }
-  .play-list-wrapper.ignore {
-    position: fixed;
-    top: 0;
-    bottom: 40px;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    background-color: rgba(0, 0, 0, .6);
-    .play-list-header {
-      display: flex;
-      height: 46px;
-
-      .back {
-        width: 40px;
-        background: url('../../../static/back.png') no-repeat;
-        background-size: 32px 32px;
-        background-position: 50%;
-      }
-      .title {
-        flex: 1;
-        color: #fff;
-        font-size: 14px;
-        text-align:center;
-        line-height: 46px;
-      }
-      .more {
-        width: 40px;
-        background: url('../../../static/morew.png') no-repeat;
-        background-size: 32px 32px;
-        background-position: 50%;
-        transform: rotate(90deg);
-      }
-    }
-    .play-list-img {
-      margin-top: 10px;
-      display: flex;
-      .img {
-        position: relative;
-        width: 123px;
-        padding-left: 15px;
-        img {
-          width: 100%;
-        }
-        .play-num {
-          position: absolute;
-          right: 5px;
-          top: 2px;
-          z-index: 3;
-          padding-left: 13px;
-          font-size: 12px;
-          background: url('./play-num.svg') no-repeat;
-          background-position: 0;
-          background-size: 12px 11px;
-          text-shadow: 1px 0 0 rgba(0, 0, 0, .15);
-          color: #fff;
-          line-height: 18px;
-        }
-      }
-      .name {
-        flex: 1;
-        font-size: 14px;
-        color: #fff;
-        padding: 20px 15px;
-        line-height: 20px;
-      }
-    }
-    .list-info {
-      display: flex;
-      margin-top: 10px;
-      .info-item {
-        flex: 1;
-        text-align: center;
-        color: #fff;
-        font-size: 12px;
-        img {
-          display: block;
-          width: 24px;
-          margin: 5px auto;
         }
       }
     }
