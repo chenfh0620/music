@@ -32,7 +32,7 @@
         </div>
         <div class="info-item">
           <img src="/static/list-4.png">
-          <span>{{intToWan(chooseList.commentCount)}}</span>
+          <span>下载</span>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
         </div>
         <ul>
           <li v-for="(item, index) in tracks" class="play-lists-item"
-           :key="item.id" @click="play(item)">
+           :key="item.id" @click.stop.prevent="playMusic(item, $event)">
             <span>{{index + 1}}</span>
             <div class="music-item">
               <h2>{{item.name}}</h2>
@@ -74,7 +74,7 @@ export default {
   },
   mounted() {
     this.listscroll = new BScroll(this.$refs.playListWrapper, {
-      click: true,
+      click: false,
     });
   },
   methods: {
@@ -102,8 +102,9 @@ export default {
       }
       return number;
     },
-    play(item) {
-      console.log(item);
+    playMusic(item, event) {
+      console.log(event);
+      this.$emit('play', item);
     },
   },
 };

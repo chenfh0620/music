@@ -38,10 +38,11 @@
     </div>
     <transition name="fade">
       <lists-detail  v-if="showList" @changeShowList="showList = false"
-       :chooseList="chooseList"></lists-detail>
+       :chooseList="chooseList" @play="playMusic"></lists-detail>
     </transition>
     <transition name="fade">
-      <player  v-if="showPlayer"></player>
+      <player  v-if="showPlayer" @changeShowPlayer="showPlayer = false"
+       :musicInfo="musicInfo"></player>
     </transition>
   </div>
 </template>
@@ -60,6 +61,7 @@ export default {
       showList: false,
       chooseList: {},
       showPlayer: false,
+      musicInfo: {},
     };
   },
   created() {
@@ -111,6 +113,10 @@ export default {
     showListFun(list) {
       this.chooseList = list;
       this.showList = true;
+    },
+    playMusic(item) {
+      this.musicInfo = item;
+      this.showPlayer = true;
     },
   },
 };
