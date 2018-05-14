@@ -41,8 +41,8 @@
        :chooseList="chooseList" @play="playMusic"></lists-detail>
     </transition>
     <transition name="fade">
-      <player  v-if="showPlayer" @changeShowPlayer="showPlayer = false"
-       :musicInfo="musicInfo"></player>
+      <player ref="player" v-show="showPlayer" @changeShowPlayer="showPlayer = false"
+       ></player>
     </transition>
   </div>
 </template>
@@ -111,11 +111,17 @@ export default {
       return number;
     },
     showListFun(list) {
+      console.log('click');
       this.chooseList = list;
       this.showList = true;
     },
     playMusic(item) {
-      this.musicInfo = item;
+      const song = {
+        id: item.id,
+        songName: item.name,
+        albumPic: item.album.blurPicUrl,
+      };
+      this.$refs.player.initPlayer(song);
       this.showPlayer = true;
     },
   },

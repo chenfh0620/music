@@ -73,9 +73,7 @@ export default {
     this.getListDetail();
   },
   mounted() {
-    this.listscroll = new BScroll(this.$refs.playListWrapper, {
-      click: false,
-    });
+    this.listscroll = new BScroll(this.$refs.playListWrapper);
   },
   methods: {
     getListDetail() {
